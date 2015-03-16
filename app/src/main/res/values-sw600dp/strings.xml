@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Homework Check-In</string>
+    <string name="hint">Add Student Name Here</string>
+    <string name="textview1">Homework Check-In</string>
+    <string name="button1">  ADD STUDENT  </string>
+    <string name="button2">  CLASS LIST  </string>
+    <string name="settings">Settings</string>
+    <string name="back">Back</string>
+    <string name="clear">Clear Check Marks</string>
+    <string name="erase">Erase Class List</string>
+    <string name="ok">OK</string>
+
+</resources>
