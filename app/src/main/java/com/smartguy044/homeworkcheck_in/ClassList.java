@@ -25,7 +25,7 @@ public class ClassList extends Activity {
 
     ListView lv;
     Cursor c;
-    String kids[] = {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
+    String kids[];
     int i = 0;
     int t = 0;
     SQLiteDatabase db;
@@ -48,22 +48,24 @@ public class ClassList extends Activity {
 
         //PreferenceManager.setDefaultValues(this, R.xml.preference, false);
 
-        // Declaring arrayadapter to store the items and return them as a view
-        adapter = new ArrayAdapter<String>(this,
-               R.layout.multiple_choice, kids);
-
         db = openOrCreateDatabase("CLASS", Context.MODE_PRIVATE, null);
 
         //READING THE DATA FROM THE TABLE CLASS AND SETTING IN AN ARRAYADAPTER
         c = db.rawQuery("SELECT * FROM CLASS; ", null);
         i = 0;
 
+        String kids[] = new String[db.rawQuery("SELECT * FROM CLASS; ", null).getCount()];
+
         while (c.moveToNext()) {
 
-            kids[i] = c.getString(0);
+            kids[i] = "" + c.getString(0);
             i++;
         }
         t = i;
+
+        // Declaring arrayadapter to store the items and return them as a view
+        adapter = new ArrayAdapter<String>(this,
+                R.layout.multiple_choice, kids);
 
         lv.setAdapter(adapter);
     }
@@ -103,11 +105,7 @@ public class ClassList extends Activity {
                             public void onClick(DialogInterface dialog,int id) {
                                 // if this button is clicked, erase
                                 // the entire class list
-
-                                db = openOrCreateDatabase("CLASS", Context.MODE_PRIVATE,
-                                        null);
-
-                                //DELETE ALL THE DATA FROM TABLE
+                                //delete all the data from the table
                                 db.delete("CLASS", null, null);
 
                                 db.close();
@@ -117,7 +115,9 @@ public class ClassList extends Activity {
                                     lv.setAdapter(adapter);
                                 }
                             }
+
                         })
+
                         .setNegativeButton("No",new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
                                 // if this button is clicked, just close
