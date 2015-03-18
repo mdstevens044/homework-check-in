@@ -5,15 +5,12 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.inputmethod.InputMethodManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import dreamers.graphics.RippleDrawable;
@@ -24,11 +21,7 @@ public class MainActivity extends Activity {
     //INITIALIZING THE VARIABLES...
     Button b1,b2;
     EditText e1;
-    String text, u;
-    //String kid[]={"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
-    String pas;
-    Cursor c;
-    int i = 0;
+    String text;
     String s,sqlquery;
 
    /* @Override
@@ -59,12 +52,12 @@ public class MainActivity extends Activity {
                         getSystemService(Context.INPUT_METHOD_SERVICE);
 
                 //CONVERTING THE TEXT IN TO STRING...
-
                 text = e1.getText().toString();
 
                 //CREATING A DATABASE OBJECT..HERE db is SQLITEDATABASE OBJECT AND
                 //WE ARE USING IT IN WRITE MODE
-                if(text.length() > 0) {
+                if(text.length() > 0)
+                {
                     SQLiteDatabase db = openOrCreateDatabase("CLASS", Context.MODE_PRIVATE, null);
 
                     text = "'" + text + "'";
@@ -77,9 +70,11 @@ public class MainActivity extends Activity {
                     sqlquery = "INSERT INTO CLASS" + " VALUES" + "(" + text + ");";
                     db.execSQL(sqlquery);
                     e1.setText("");
+                    db.close();
 
                     Toast.makeText(getApplicationContext(), "Student Added To Class", Toast.LENGTH_SHORT).show();
-                }else{
+                }
+                else{
                     Toast.makeText(getApplicationContext(), "No Student Added", Toast.LENGTH_SHORT).show();
                 }
             }

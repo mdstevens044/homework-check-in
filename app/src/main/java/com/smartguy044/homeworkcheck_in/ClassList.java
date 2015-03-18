@@ -2,7 +2,6 @@ package com.smartguy044.homeworkcheck_in;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,16 +9,10 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ClassList extends Activity {
 
@@ -27,7 +20,6 @@ public class ClassList extends Activity {
     Cursor c;
     String kids[];
     int i = 0;
-    int t = 0;
     SQLiteDatabase db;
     final Context context = this;
     ArrayAdapter<String> adapter;
@@ -61,7 +53,6 @@ public class ClassList extends Activity {
             kids[i] = "" + c.getString(0);
             i++;
         }
-        t = i;
 
         // Declaring arrayadapter to store the items and return them as a view
         adapter = new ArrayAdapter<String>(this,
