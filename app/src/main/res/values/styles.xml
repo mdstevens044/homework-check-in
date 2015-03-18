@@ -4,12 +4,17 @@
     <style name="AppTheme" parent="android:Theme.Holo">
         <item name="android:actionBarStyle">@style/MyActionBarStyle</item>
         <item name="android:editTextBackground">@drawable/apptheme_edit_text_holo_light</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
     </style>
 
     <style name="MyActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:displayOptions">showTitle</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:background">#008080</item>
+    </style>
+
+    <style name="OverFlow" parent="Widget.Sherlock.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_overflow</item>
     </style>
 
 </resources>
