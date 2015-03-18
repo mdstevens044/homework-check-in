@@ -56,8 +56,8 @@ public class ClassList extends Activity {
 
         String kids[] = new String[db.rawQuery("SELECT * FROM CLASS; ", null).getCount()];
 
-        while (c.moveToNext()) {
-
+        while (c.moveToNext())
+        {
             kids[i] = "" + c.getString(0);
             i++;
         }
@@ -68,6 +68,7 @@ public class ClassList extends Activity {
                 R.layout.multiple_choice, kids);
 
         lv.setAdapter(adapter);
+        db.close();
     }
 
     @Override
@@ -106,14 +107,12 @@ public class ClassList extends Activity {
                                 // if this button is clicked, erase
                                 // the entire class list
                                 //delete all the data from the table
+                                db = openOrCreateDatabase("CLASS", Context.MODE_PRIVATE, null);
                                 db.delete("CLASS", null, null);
-
                                 db.close();
 
-                                for (int j = 0; j < t; j++) {
-                                    kids[j] = "";
-                                    lv.setAdapter(adapter);
-                                }
+                                startActivity(new Intent(getApplicationContext(),
+                                        MainActivity.class));
                             }
 
                         })
