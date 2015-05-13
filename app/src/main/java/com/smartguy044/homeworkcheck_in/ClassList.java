@@ -59,9 +59,9 @@ public class ClassList extends Activity {
         adapter = new ArrayAdapter<String>(this, R.layout.multiple_choice, kids);
         lv.setAdapter(adapter);
 
-        //db.close();
+        db.close();
 
-        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        /*lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view,
@@ -88,16 +88,14 @@ public class ClassList extends Activity {
 
                                 String delete = String.valueOf(adapter.getItemId(position));
 
-                                //db.delete("CLASS", null + "=?", new String[] {delete});
-
                                 adapter.remove(delete);
 
                                 adapter.notifyDataSetChanged();
 
                                 //lv.setAdapter(adapter);
 
-                                /*startActivity(new Intent(getApplicationContext(),
-                                        ClassList.class));*/
+                                startActivity(new Intent(getApplicationContext(),
+                                        ClassList.class));
 
                             }
 
@@ -118,7 +116,7 @@ public class ClassList extends Activity {
                 alertDialog.show();
                 return true;
             }
-        });
+        });*/
     }
 
     @Override
@@ -156,7 +154,7 @@ public class ClassList extends Activity {
                                 // if this button is clicked, erase
                                 // the entire class list
                                 //delete all the data from the table
-                                db.isOpen();// = openOrCreateDatabase("CLASS", Context.MODE_PRIVATE, null);
+                                db = openOrCreateDatabase("CLASS", Context.MODE_PRIVATE, null);
                                 db.delete("CLASS", null, null);
                                 db.close();
 
