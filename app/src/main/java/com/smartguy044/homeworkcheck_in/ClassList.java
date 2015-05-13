@@ -11,15 +11,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class ClassList extends Activity {
 
     ListView lv;
     Cursor c;
-    String kids[];
-    int i = 0;
+    ArrayList<String> kids;
     SQLiteDatabase db;
     final Context context = this;
     ArrayAdapter<String> adapter;
@@ -39,33 +42,88 @@ public class ClassList extends Activity {
         lv = (ListView) findViewById(R.id.listView1);
 
         //PreferenceManager.setDefaultValues(this, R.xml.preference, false);
-
         db = openOrCreateDatabase("CLASS", Context.MODE_PRIVATE, null);
 
         //READING THE DATA FROM THE TABLE CLASS AND SETTING IN AN ARRAYADAPTER
         c = db.rawQuery("SELECT * FROM CLASS; ", null);
-        i = 0;
 
-        String kids[] = new String[db.rawQuery("SELECT * FROM CLASS; ", null).getCount()];
+        //final String
+        kids = new ArrayList<String>(db.rawQuery("SELECT * FROM CLASS; ", null).getCount());
 
         while (c.moveToNext())
         {
-            kids[i] = "" + c.getString(0);
-            i++;
+            kids.add("" + c.getString(0));
         }
 
         // Declaring arrayadapter to store the items and return them as a view
-        adapter = new ArrayAdapter<String>(this,
-                R.layout.multiple_choice, kids);
-
+        adapter = new ArrayAdapter<String>(this, R.layout.multiple_choice, kids);
         lv.setAdapter(adapter);
-        db.close();
+
+        //db.close();
+
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view,
+                                           final int position, long arg3) {
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        context);
+
+                // set title
+                alertDialogBuilder.setTitle("REMOVE STUDENT");
+
+                // set dialog message
+                alertDialogBuilder
+                        .setMessage("Are you sure you want to REMOVE this student from the class list?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // if this button is clicked, erase
+                                // the selected student from class list
+
+                                kids.remove(position);
+
+                                //String delete = String.valueOf(position);
+
+                                String delete = String.valueOf(adapter.getItemId(position));
+
+                                //db.delete("CLASS", null + "=?", new String[] {delete});
+
+                                adapter.remove(delete);
+
+                                adapter.notifyDataSetChanged();
+
+                                //lv.setAdapter(adapter);
+
+                                /*startActivity(new Intent(getApplicationContext(),
+                                        ClassList.class));*/
+
+                            }
+
+                        })
+
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // if this button is clicked, just close
+                                // the dialog box and do nothing
+                                dialog.cancel();
+                            }
+                        });
+
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+
+                // show it
+                alertDialog.show();
+                return true;
+            }
+        });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
             //GOING BACK TO MAIN ACTIVITY
             case R.id.back:
                 startActivity(new Intent(getApplicationContext(),
@@ -98,7 +156,7 @@ public class ClassList extends Activity {
                                 // if this button is clicked, erase
                                 // the entire class list
                                 //delete all the data from the table
-                                db = openOrCreateDatabase("CLASS", Context.MODE_PRIVATE, null);
+                                db.isOpen();// = openOrCreateDatabase("CLASS", Context.MODE_PRIVATE, null);
                                 db.delete("CLASS", null, null);
                                 db.close();
 
