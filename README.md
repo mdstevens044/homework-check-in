@@ -1,2 +1,2 @@
-# com.smartguy044.homeworkcheck_in
+# homework-check-in
 Homework Check In app for elementary school teachers
